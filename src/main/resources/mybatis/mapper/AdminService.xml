@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.AdminDao">
+
+
+    <select id="loginPro" resultType="com.hjf.entity.Admin">
+        select * from admin where admin_name = #{adminName}  and admin_pwd = #{adminPwd}
+    </select>
+
+    <select id="getIdPro" resultType="java.lang.Integer">
+        select admin_id from admin where admin_name = #{adminName}
+    </select>
+
+</mapper>

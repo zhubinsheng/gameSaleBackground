@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.PostDao">
+    <insert id="insertPostPro">
+        insert into post (post_title, post_content,post_time, post_thumbs,post_userid, post_username,
+        post_commons) values(#{postTitle},#{postContent},#{postTime},#{postThumbs},#{postUserid},
+        #{postUsername},#{postCommons})
+    </insert>
+
+    <delete id="deletePostPro">
+        delete from post where post_id = #{postId}
+    </delete>
+
+    <select id="showAllpostPro" resultType="com.hjf.entity.Post">
+        select * from post
+    </select>
+
+    <select id="showPostPro" resultType="com.hjf.entity.Post">
+        select * from post where  post_userid = #{postUserid}
+    </select>
+
+    <select id="showNowpostPro" resultType="com.hjf.entity.PostAndUser">
+        select post_id,post_title,post_content,userinfo_img,userinfo_name,post_time,post_thumbs,post_commons
+        from post join userinfo on post.post_userid = userinfo.userinfo_id order by post_time  desc,post_title asc
+    </select>
+
+    <select id="showHotpostPro" resultType="com.hjf.entity.PostAndUser">
+        select post_id,post_title,post_content,userinfo_img,userinfo_name,post_time,post_thumbs,post_commons
+        from post join userinfo on post.post_userid = userinfo.userinfo_id order by post_commons desc,post_title asc
+    </select>
+
+    <select id="showPostdetailPro" resultType="com.hjf.entity.PostAndUser">
+        select post_id,post_title,post_content,userinfo_img,userinfo_name,post_time,post_thumbs,post_commons,userinfo_id
+        from post join userinfo on post.post_userid = userinfo.userinfo_id where post_id = #{postId}
+    </select>
+
+    <select id="showPostcommonPro" resultType="com.hjf.entity.CommentAndUser">
+        select userinfo_id,comment_userimg,userinfo_name,comment_time,comment_content
+        from comment join userinfo  on comment.comment_userid = userinfo.userinfo_id
+        where comment_postid = #{commentPostid}
+    </select>
+
+    <select id="showLikePro" resultType="com.hjf.entity.Post">
+        select * from post where post_title like '%${postTitle}%'
+    </select>
+
+</mapper>

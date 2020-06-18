@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    #   数据源基本配置
+
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gameplayer?characterEncoding=UTF-8&useUnicode=true&useSSL=false
+    username: debian-sys-maint
+    password: yNMhLT0GxC7WgIqp
+    initialization-mode: always
+
+      #url: jdbc:mysql://localhost:3306/jeecg-boot2?
+      #username: root
+    #password: root
+    #driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:mybatis/mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:mybatis/mapper/*.xml
+#    # 下划线转驼峰
+#    configuration:
+#      map-underscore-to-camel-case: true
+
+server:
+  port: 8215

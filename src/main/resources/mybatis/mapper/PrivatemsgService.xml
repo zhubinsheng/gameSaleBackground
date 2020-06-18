@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.PrivatemsgDao">
+    <insert id="SendPro">
+        insert into privatemsg (privatemsg_sendid, privatemsg_sendname, privatemsg_acceptid, privatemsg_acceptname, privatemsg_content)
+        values (#{privatemsgSendid},#{privatemsgSendname},#{privatemsgAcceptid},#{privatemsgAcceptname},#{privatemsgContent})
+    </insert>
+
+    <select id="showMsgPro" resultType="com.hjf.entity.Privatemsg">
+        select * from privatemsg where privatemsg_acceptid = #{privatemsgAcceptid} order by privatemsg_time desc,privatemsg_sendname asc
+    </select>
+
+    <select id="Refreshmsg" resultType="com.hjf.entity.Privatemsg">
+        select privatemsg_sendname,privatemsg_content from  privatemsg where privatemsg_acceptid = #{privatemsgAcceptid}
+        order by privatemsg_time desc limit 0,1
+    </select>
+</mapper>

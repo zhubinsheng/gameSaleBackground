@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.CollectionDao">
+
+    <insert id="insertCollectionPro">
+        insert into collection (collection_name, collection_price, collection_img,
+        collection_gameid, collection_userid) values (#{collectionName},
+        #{collectionPrice},#{collectionImg},#{collectionGameid},#{collectionUserid});
+    </insert>
+
+    <delete id="deleteCollectionPro">
+        delete from collection where collection_gameid = #{collectionGameid}
+        and collection_userid = #{collectionUserid}
+    </delete>
+
+    <delete id="deleteCollect">
+        delete from collection where collection_name = #{collectionName}
+        and collection_userid = #{collectionUserid}
+    </delete>
+
+    <select id="showCollectionPro" resultType="com.hjf.entity.Collection">
+        select * from collection where collection_userid = #{collectionUserid}
+    </select>
+
+    <select id="showCollectPro" resultType="com.hjf.entity.Collection">
+        select * from collection where collection_gameid = #{collectionGameid}
+        and collection_userid = #{collectionUserid}
+    </select>
+
+
+</mapper>

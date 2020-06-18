@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.GameDao">
+
+    <select id="showGamePro" resultType="com.hjf.entity.Game">
+        select * from game
+    </select>
+
+    <insert id="insertGamePro">
+        insert into game (game_name, game_price, game_description, game_discount, game_promotion,
+        game_character, game_img, game_down,game_sale,game_time) values (#{gameName},#{gamePrice},
+        #{gameDescription},#{gameDiscount},#{gamePromotion},#{gameCharacter},#{gameImg},#{gameDown},
+        #{gameSale},#{gameTime})
+    </insert>
+
+    <delete id="deleteGamePro">
+        delete from game where game_id = #{gameId}
+    </delete>
+
+    <update id="updateGamePro">
+        update game set game_name = #{gameName},game_price = #{gamePrice},game_description = #{gameDescription},
+        game_discount = #{gameDiscount},game_promotion = #{gamePromotion},game_character = #{gameCharacter},
+        game_img = #{gameImg}, game_down = #{gameDown} where game_id = #{gameId}
+    </update>
+
+    <select id="showLikePro" resultType="com.hjf.entity.Game">
+        select * from game where game_name like '%${gameName}%'
+    </select>
+
+    <select id="getSortPro" resultType="com.hjf.entity.Sort">
+        select * from sort
+    </select>
+
+    <select id="getSalePro" resultType="com.hjf.entity.GameSale">
+        select game_id,game_img,game_name , game_sale from game order by game_sale desc , game_name asc limit 0,10
+    </select>
+
+    <select id="showOneGamePro" resultType="com.hjf.entity.Game">
+        select * from game where game_name = #{gameName}
+    </select>
+
+    <select id="showIdgamePro" resultType="com.hjf.entity.Game">
+        select * from game where game_id = #{gameId}
+    </select>
+
+    <select id="showBlockPro" resultType="com.hjf.entity.Game">
+        select game_id,game_img,game_name,game_discount,game_price from game  where game_promotion = '1'
+        order by game_discount asc, game_time asc limit 0,5
+    </select>
+
+    <select id="showSalePro" resultType="com.hjf.entity.Game">
+        select game_id,game_img,game_name,game_character,game_discount,game_price from game  where game_promotion = '1'
+        order by game_time desc , game_discount asc limit 0,10
+    </select>
+
+    <select id="showNewgamePro" resultType="com.hjf.entity.Game">
+        select game_id,game_img,game_name,game_character,game_discount,game_price,game_promotion from game
+        order by game_time desc , game_name asc limit 0,10
+    </select>
+
+    <select id="showSortgamePro" resultType="com.hjf.entity.Game">
+         select * from game where game_character = #{gameCharacter}
+    </select>
+
+    <select id="duplicatePro" resultType="com.hjf.entity.Game">
+        select game_name from game where game_name = #{gameName}
+    </select>
+
+    <select id="selOrder" resultType="com.hjf.entity.Order">
+        select * from `order` where order_gameid = #{gameId}
+    </select>
+
+    <update id="updateCartmsg">
+        update cart set cart_name = #{gameName},cart_img = #{gameImg},cart_price = #{price}
+        where cart_gameid = #{gameId}
+    </update>
+
+    <update id="updateCollectmsg">
+        update collection set collection_name = #{gameName},collection_price = #{price},
+        collection_img = #{gameImg} where collection_gameid = #{gameId}
+    </update>
+
+    <update id="addSortcount">
+        update sort set sort_count = sort_count + 1 where sort_id in
+        (select a.sort_id from (select sort_id from sort where sort_name = #{gameCharacter}) as a)
+    </update>
+
+    <update id="updateSort">
+        update sort set sort_count = sort_count - 1 where sort_name = #{gameCharacter}
+    </update>
+
+    <update id="updateSale">
+        update game set game_sale = game_sale + 1 where game_id = #{gameId}
+    </update>
+
+    <update id="updateSortOnePro">
+        update sort set sort_count = sort_count - 1 where sort_name = #{dec}
+    </update>
+
+    <update id="updateSortTwoPro">
+        update sort set sort_count = sort_count + 1 where sort_name = #{gameCharacter}
+    </update>
+</mapper>

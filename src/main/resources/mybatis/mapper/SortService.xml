@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.SortDao">
+
+    <delete id="deleteSort">
+        delete from sort where sort_id = #{sortId}
+    </delete>
+
+    <select id="showSortPro" resultType="com.hjf.entity.Sort">
+        select * from sort
+    </select>
+
+    <insert id="insertSortPro">
+        insert into sort (sort_name, sort_count) values (#{sortName},#{sortCount})
+    </insert>
+</mapper>

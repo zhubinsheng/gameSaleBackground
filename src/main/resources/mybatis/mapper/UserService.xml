@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.UserDao">
+    <update id="updateUserPro">
+        update userinfo set userinfo_img = #{userinfoImg},userinfo_name = #{userinfoName},userinfo_sex = #{userinfoSex},
+        userinfo_birthday = #{userinfoBirthday} where userinfo_id = #{userinfoId}
+    </update>
+
+    <update id="updatePwdPro">
+        update userinfo set userinfo_pwd = #{userinfoPwd} where userinfo_id = #{userinfoId}
+    </update>
+
+    <update id="updateEmailPro">
+        update userinfo set userinfo_email = #{userinfoEmail} where userinfo_id = #{userinfoId}
+    </update>
+
+    <update id="updatePhonePro">
+        update userinfo set userinfo_phone = #{userinfoPhone} where userinfo_id = #{userinfoId}
+    </update>
+
+    <delete id="deleteUserPro">
+        delete from userinfo where userinfo_id = #{userinfoId}
+    </delete>
+
+    <select id="loginPro" resultType="com.hjf.entity.Userinfo">
+        select * from userinfo where (userinfo_name = #{userinfoName} or userinfo_phone = #{userinfoName}
+        or userinfo_email = #{userinfoName}) and userinfo_pwd = #{userinfoPwd}
+    </select>
+
+    <insert id="registerPro">
+        insert into userinfo (userinfo_name, userinfo_pwd,userinfo_createtime) values (#{userinfoName},#{userinfoPwd},#{userinfoCreatetime})
+    </insert>
+
+    <select id="showUserPro" resultType="com.hjf.entity.Userinfo">
+        select * from userinfo where userinfo_id = #{userinfoId}
+    </select>
+
+    <select id="showAlluserPro" resultType="com.hjf.entity.Userinfo">
+        select * from userinfo
+    </select>
+
+    <insert id="insertUserPro">
+        insert into userinfo (userinfo_name, userinfo_pwd, userinfo_email, userinfo_phone,
+        userinfo_sex, userinfo_birthday,userinfo_createtime,userinfo_img) values
+        (#{userinfoName},#{userinfoPwd},#{userinfoEmail},#{userinfoPhone},#{userinfoSex},
+        #{userinfoBirthday},#{userinfoCreatetime},#{userinfoImg});
+    </insert>
+
+    <select id="getSexPro" resultType="java.util.Map">
+        select  sum(case when userinfo_sex = '男' then 1 else 0 end) as 'man',
+                sum(case when userinfo_sex = '女' then 1 else 0 end) as 'woman',
+                sum(case when userinfo_sex is null then 1 else 0 end) as 'undefine'
+        from userinfo
+    </select>
+
+    <select id="getAgePro" resultType="java.util.Map">
+        select  sum(case when userinfo_birthday &gt;= '2000-01-01'then 1 else 0 end) as 'year00',
+                sum(case when userinfo_birthday between  '1900-01-01' and  '1999-12-31'then 1 else 0 end) as 'year90',
+                sum(case when userinfo_birthday between  '1800-01-01' and  '1899-12-31' then 1 else 0 end) as 'year80',
+                sum(case when userinfo_birthday between  '1700-01-01' and  '1799-12-31' then 1 else 0 end) as 'year70',
+                sum(case when userinfo_birthday between  '1600-01-01' and  '1699-12-31' then 1 else 0 end) as 'year60',
+                sum(case when userinfo_birthday &lt;= '1599-12-31' then 1 else 0 end) as 'year50',
+                sum(case when userinfo_birthday is null then 1 else 0 end) as 'unknow'
+        from userinfo
+    </select>
+
+    <select id="duplicatePro" resultType="com.hjf.entity.Userinfo">
+        select userinfo_name from userinfo where userinfo_name = #{userinfoName}
+    </select>
+
+    <select id="getUserIdPro" resultType="com.hjf.entity.Userinfo">
+        select userinfo_id from userinfo where userinfo_name = #{userinfoName}
+    </select>
+
+    <select id="getUserPro" resultType="com.hjf.entity.Userinfo">
+        select * from userinfo where userinfo_name = #{userinfoName}
+    </select>
+
+    <select id="showLikePro" resultType="com.hjf.entity.Userinfo">
+        select * from userinfo where userinfo_name like '%${userinfoName}%'
+    </select>
+
+    <update id="updateSendname">
+        update privatemsg set privatemsg_sendname = #{userinfoName} where privatemsg_sendid = #{userinfoId}
+    </update>
+
+    <update id="updateAcceptname">
+        update privatemsg set privatemsg_acceptname = #{userinfoName} where privatemsg_acceptid = #{userinfoId}
+    </update>
+
+    <update id="updatePsotname">
+        update post set post_username = #{userinfoName} where post_userid = #{userinfoId}
+    </update>
+</mapper>

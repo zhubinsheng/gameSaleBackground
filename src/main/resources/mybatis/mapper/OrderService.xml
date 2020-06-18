@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjf.dao.OrderDao">
+
+    <insert id="insertOrderPro">
+        insert into `order` (order_name, order_price, order_time, order_userid, order_gameid, order_status)
+        values (#{cartName},#{cartPrice},#{orderTime},#{cartUserid},#{cartGameid},'0');
+    </insert>
+
+    <delete id="deleteOrderPro">
+        delete from `order` where order_id = #{orderId}
+    </delete>
+
+    <select id="showOrderPro" resultType="com.hjf.entity.OrderAndUser">
+        select order_id,order_name,order_time,order_price,game_img from `order` join game on `order`.order_gameid = game.game_id
+        where order_userid = #{orderUserid} and order_status = '1' order by order_time desc
+    </select>
+
+    <select id="orderNorepeatPro" resultType="com.hjf.entity.OrderAndUser">
+        select order_name, order_gameid, game_img from `order` join game on `order`.order_gameid = game.game_id
+        where order_userid = #{orderUserid} and order_status = '1' group by order_name
+    </select>
+
+    <select id="showAllorderPro" resultType="com.hjf.entity.Order">
+        select * from `order`
+    </select>
+
+    <select id="showLikePro" resultType="com.hjf.entity.Order">
+        select * from `order` where order_name like '%${orderName}%'
+    </select>
+
+    <update id="updateBolPro">
+        update `order` set order_status = '1' where order_gameid = #{gameid}
+        and order_userid = #{userid}
+    </update>
+
+    <update id="updateName">
+        update `order` set order_name = #{gameName} where order_gameid = #{gameId}
+    </update>
+
+    <delete id="deleteOrderTwoPro">
+        delete from `order` where order_gameid = #{gameId} and order_userid = #{userId}
+    </delete>
+
+    <select id="showBuyStatusPro" resultType="com.hjf.entity.Order">
+        select * from `order` where order_gameid = #{orderGameid} and order_userid = #{orderUserid}
+        and order_status = '1'
+    </select>
+</mapper>
